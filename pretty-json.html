@@ -1,0 +1,60 @@
+<html lang="en">
+
+<head>
+</head>
+<body>
+
+<textarea style="height: 100px;width: 800px;" id="t1">
+
+</textarea>
+<br/>
+
+<textarea style="height: 600px;width: 800px;" id="t2">
+
+</textarea>
+
+</body>
+
+<script>
+    var json = '3434{"menu":{"id": "file","welcome": "text{{variable}}text","value": [[1,2,3],[4,5,6] ],"popup":{"menuitem":[{"value":["one","two"],"onclick":"CreateNewDoc()"},{"value":"Close","onclick":"CloseDoc()"},{"welcome": "abc{{variable}}xyz"}]}}}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+
+    var orginStr = json;
+    var charArr = [];
+    var level = 0;
+    var inStr = false;
+    for (var i = 0; i < orginStr.length; i++) {
+        var c = orginStr[i];
+        if (c == '{') {
+            level++;
+        } else if (c == '}') {
+            level--;
+        }
+
+        charArr.push(c);
+        if ((c == '{' || c == '}' || c == ',')) {
+            charArr.push("\r\n");
+            charArr.push(getPadding(level));
+        }
+        if (c == '{' || c == ',') {
+            //charArr.push(getPadding(level));
+        }
+    }
+    var prettyJson = charArr.join("");
+    //alert(prettyJson)
+    console.log(prettyJson);
+
+    function getPadding(level) {
+        var pad = [];
+        for (var i = 0; i < level; i++) {
+            pad.push("\t");
+        }
+
+        return pad.join("");
+    }
+
+    document.getElementById("t1").value=json;
+
+    document.getElementById("t2").value=prettyJson;
+</script>
+</html>
+
